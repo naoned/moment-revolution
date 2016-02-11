@@ -1,8 +1,8 @@
 (function () {
   'use strict';
 
-  var revolution = require('./revolution'),
-    moment = require('moment');
+  var revolution = require('./revolution');
+  require('moment');
 
   var Revolution = function (moment) {
     var date = revolution(moment.year(), moment.month() + 1, moment.date());
