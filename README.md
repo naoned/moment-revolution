@@ -1,9 +1,10 @@
 # moment-revolution
 
-`moment-revolution` is a [moment](http://momentjs.com) plugin to display a date in the [French Republican Calendar](http://en.wikipedia.org/wiki/French_Republican_Calendar) format.
+`moment-revolution` is a [moment](http://momentjs.com) plugin to display a date in the [French Republican Calendar](http://en.wikipedia.org/wiki/French_Republican_Calendar) format and to get Gregorian date from a Republican one.
 
 ```js
-moment(new Date(1988, 2, 29).revolution().format(); //Nonidi 9 Germinal 196
+moment(new Date(1988, 2, 29).revolution().format(); // Nonidi 9 Germinal 196
+moment('Nonidi 9 Germinal 196').gregorian().format(); // 29/3/1988
 ```
 
 ## Installation
@@ -32,11 +33,19 @@ var moment = require('moment-revolution');
 
 ## Usage
 ```js
-var moment = require('moment-revolution');
-
 var start = moment(new Date(1792, 8, 22));
 var rev = start.revolution().format();
 console.log(rev); // Primidi 1 Vendémiaire 1
+
+start = 'Primidi 1 Vendémiaire 1';
+var greg = moment().gregorian(start).format();
+console.log(greg); // 22/9/1792
+
+start = 'Jour de la Vertu An II';
+greg = moment().gregorian(start).format();
+console.log(greg); // 17/9/1794
+
+// If a date is not valid in Republican, it'll returns NaN/NaN/NaN
 
 ```
 
