@@ -346,7 +346,7 @@
     }
 
     function _getMonth(repMonth, repDay) {
-        var month = 1;
+        var month = 0;
         if (repMonth.toLowerCase() === 'vendémiaire' || repMonth.toLowerCase() === 'vendemiaire') {
             if (repDay >= 1 && repDay <= 9) {
                 month = 9;
@@ -553,6 +553,13 @@
         year = _getYear(repYear, repDay, repMonth);
         if (typeof month === 'undefined') {
             month = _getMonth(repMonth, repDay);
+            if (month === 0) {
+                return {
+                    day: NaN,
+                    month: NaN,
+                    year: NaN
+                };
+            }
         }
         day = _getDay(repDay, repMonth, repYear);
         if (day < 10) {
@@ -565,10 +572,22 @@
         if (myDate.isAfter('1800-02-28')) {
             myDate.add(1, 'd');
         }
+        // Trick / hack to check if date is really after 01/01/1806 : add T00:00:00.000Z
+        if (myDate.isAfter('1806-01-01T00:00:00.000Z')) {
+            // If date after 01/01/1806, then it's not a republican date (republican calendar stops at 01/01/1806)
+            return {
+                day: NaN,
+                month: NaN,
+                year: NaN
+            };
+        }
+        day = myDate.format('DD', myDate.get('date'));
+        month = myDate.format('MM', myDate.get('month'));
+        year = myDate.format('YYYY', myDate.get('year'));
         return {
-            day: myDate.get('date'),
-            month: myDate.get('month') + 1,
-            year: myDate.get('year')
+            day: day,
+            month: month,
+            year: year
         };
     }
 })();
